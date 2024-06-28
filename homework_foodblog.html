@@ -86,7 +86,7 @@
         <aside id="rightside"></aside>
         <div id="container">
             <header-component></header-component>
-            <main-component></main-component>
+            <main-component :posts="blogData.posts"></main-component>
             <footer-component></footer-component>
         </div>
     </div>
@@ -99,6 +99,7 @@
         });
 
         Vue.component('main-component', {
+            props: ['posts'],
             template: `
                 <main>
                     <aside id="photos">
@@ -117,9 +118,33 @@
                         ></post-component>
                     </section>
                 </main>
-            `,
-            data() {
-                return {
+            `
+        });
+
+        Vue.component('post-component', {
+            props: ['author', 'date', 'time', 'reply', 'content'],
+            template: `
+                <div class="post">
+                    <span class="author">{{ author }}</span> —
+                    <span class="date">{{ date }} @ {{ time }}</span>
+                    <span class="reply">{{ reply }}</span>
+                    <p>{{ content }}</p>
+                </div>
+            `
+        });
+
+        Vue.component('footer-component', {
+            template: `
+                <footer>
+                    &copy; Copyright FOOD BLOG
+                </footer>
+            `
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                blogData: {
                     posts: [
                         {
                             author: 'Brianna',
@@ -152,30 +177,6 @@
                     ]
                 }
             }
-        });
-
-        Vue.component('post-component', {
-            props: ['author', 'date', 'time', 'reply', 'content'],
-            template: `
-                <div class="post">
-                    <span class="author">{{ author }}</span> —
-                    <span class="date">{{ date }} @ {{ time }}</span>
-                    <span class="reply">{{ reply }}</span>
-                    <p>{{ content }}</p>
-                </div>
-            `
-        });
-
-        Vue.component('footer-component', {
-            template: `
-                <footer>
-                    &copy; Copyright FOOD BLOG
-                </footer>
-            `
-        });
-
-        new Vue({
-            el: '#app'
         });
     </script>
 </body>
